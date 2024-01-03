@@ -5,31 +5,34 @@ namespace App\Http\Services;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class UserService 
+class UserService
 {
     public function index()
     {
-        return User::all();
+        return User::with('role')->get()->toArray();
     }
 
     public function store(Request $request)
     {
-        return User::create($request->all());
+        $data = $request->all();
+        $data['password'] = $data['password'] ?? $data['email'];
+
+        return User::create($data);
     }
 
-    public function show(User $role)
+    public function show($id)
     {
-        return User::find($role);
+        return User::with('role')->find($id);
     }
 
-    public function update(Request $request, User $role)
+    public function update(Request $request, User $user)
     {
-        $role->update($request->all());
-        return $role;
+        $user->update($request->all());
+        return $user;
     }
 
-    public function destroy(User $role)
+    public function destroy(User $user)
     {
-        return $role->delete();
+        return $user->delete();
     }
 }

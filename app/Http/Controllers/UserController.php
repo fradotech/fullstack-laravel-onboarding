@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserFormRequest;
+use App\Http\Services\RoleService;
 use App\Http\Services\UserService;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -10,10 +12,14 @@ use Inertia\Inertia;
 class UserController extends Controller
 {
     protected $userService;
+    protected $roleService;
 
-    public function __construct(UserService $userService)
-    {
+    public function __construct(
+        UserService $userService,
+        RoleService $roleService
+    ) {
         $this->userService = $userService;
+        $this->roleService = $roleService;
     }
 
     public function index()
@@ -21,18 +27,23 @@ class UserController extends Controller
         $data = $this->userService->index();
 
         return Inertia::render('User/Users', [
+            'title' => 'Users',
             'data' => $data
         ]);
     }
 
     public function create()
     {
-        return ['message' => 'create'];
+        return Inertia::render('User/UserForm', [
+            'title' => 'Create User',
+            'roles' => $this->roleService->index(),
+        ]);
     }
 
-    public function store(Request $request)
+    public function store(UserFormRequest $request)
     {
-        return $this->userService->store($request);
+        $this->userService->store($request);
+        return redirect()->route('users.index');
     }
 
     public function show(User $user)
@@ -40,18 +51,26 @@ class UserController extends Controller
         return $this->userService->show($user);
     }
 
-    public function edit(User $user)
+    public function edit($id)
     {
-        return ['message' => 'edit'];
+        $data = $this->userService->show($id);
+
+        return Inertia::render('User/UserForm', [
+            'title' => 'Edit User',
+            'data' => $data,
+            'roles' => $this->roleService->index(),
+        ]);
     }
 
-    public function update(Request $request, User $user)
+    public function update(UserFormRequest $request, User $user)
     {
-        return $this->userService->update($request, $user);
+        $this->userService->update($request, $user);
+        return redirect()->route('users.index');
     }
 
     public function destroy(User $user)
     {
-        return $this->userService->destroy($user);
+        $this->userService->destroy($user);
+        return redirect()->back();
     }
 }
