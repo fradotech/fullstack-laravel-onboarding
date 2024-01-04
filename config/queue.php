@@ -2,6 +2,8 @@
 
 return [
 
+    // php artisan queue:work --queue=high,default
+
     /*
     |--------------------------------------------------------------------------
     | Default Queue Connection Name
