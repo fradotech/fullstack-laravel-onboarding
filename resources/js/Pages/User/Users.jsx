@@ -3,6 +3,7 @@ import Layout from "../../Layout";
 import { Inertia } from "@inertiajs/inertia";
 
 export default function Users({ title, data }) {
+    const users = data?.data;
     const columns = [
         {
             title: "Name",
@@ -52,7 +53,7 @@ export default function Users({ title, data }) {
                     + New
                 </Button>
             </Row>
-            <Table columns={columns} dataSource={data} rowKey="id" />
+            <Table columns={columns} dataSource={users} rowKey="id" />
         </Layout>
     );
 }

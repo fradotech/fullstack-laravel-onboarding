@@ -3,10 +3,12 @@ import { Inertia } from "@inertiajs/inertia";
 import Layout from "../../Layout";
 
 export default function UserForm({ title, roles, data }) {
+    const user = data?.data;
     const [form] = Form.useForm();
-    const onFinish = (values) => Inertia.post("/users", values);
-
-    console.log(data)
+    const onFinish = (values) => {
+        if (user) Inertia.put(`/users/${user.id}`, values);
+        else Inertia.post("/users", values);
+    };
 
     return (
         <Layout>
@@ -15,7 +17,7 @@ export default function UserForm({ title, roles, data }) {
                 <Form
                     form={form}
                     onFinish={onFinish}
-                    initialValues={data && data}
+                    initialValues={user && user}
                 >
                     <Form.Item name="name">
                         <Input placeholder="Name" />

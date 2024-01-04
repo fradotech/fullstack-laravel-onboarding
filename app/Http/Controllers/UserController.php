@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserFormRequest;
+use App\Http\Resources\UserResource;
 use App\Http\Services\RoleService;
 use App\Http\Services\UserService;
 use App\Models\User;
@@ -28,7 +29,7 @@ class UserController extends Controller
 
         return Inertia::render('User/Users', [
             'title' => 'Users',
-            'data' => $data
+            'data' => UserResource::collection($data)
         ]);
     }
 
@@ -57,7 +58,7 @@ class UserController extends Controller
 
         return Inertia::render('User/UserForm', [
             'title' => 'Edit User',
-            'data' => $data,
+            'data' => new UserResource($data),
             'roles' => $this->roleService->index(),
         ]);
     }

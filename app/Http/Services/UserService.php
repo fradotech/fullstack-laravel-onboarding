@@ -9,7 +9,7 @@ class UserService
 {
     public function index()
     {
-        return User::with('role')->get()->toArray();
+        return User::with('role')->get();
     }
 
     public function store(Request $request)
