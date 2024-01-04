@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class SendMailJob implements ShouldQueue
+class SendMailErrorJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -27,6 +27,6 @@ class SendMailJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info('Send mail user updated');
+        Log::info('Send mail custom error');
     }
 }
