@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Jobs\SendMailJob;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -27,6 +28,7 @@ class UserService
 
     public function update(Request $request, User $user)
     {
+        SendMailJob::dispatch();
         $user->update($request->all());
         return $user;
     }
