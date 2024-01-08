@@ -2,6 +2,7 @@
 
 namespace App\Http\Services;
 
+use App\Http\Requests\UserFormRequest;
 use App\Jobs\SendMailJob;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -10,10 +11,10 @@ class UserService
 {
     public function index()
     {
-        return User::with('role')->get();
+        return User::with('role')->paginate();
     }
 
-    public function store(Request $request)
+    public function store(UserFormRequest $request)
     {
         $data = $request->all();
         $data['password'] = $data['password'] ?? $data['email'];
@@ -26,7 +27,7 @@ class UserService
         return User::with('role')->find($id);
     }
 
-    public function update(Request $request, User $user)
+    public function update(UserFormRequest $request, User $user)
     {
         $user->update($request->all());
         return $user;
