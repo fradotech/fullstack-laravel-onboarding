@@ -47,11 +47,6 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    public function show(User $user)
-    {
-        return $this->userService->show($user);
-    }
-
     public function edit($id)
     {
         $data = $this->userService->show($id);
