@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -19,4 +20,6 @@ Route::get('/', function () {
     return Inertia::render('Landing');
 });
 
-Route::resource('users', UserController::class)->except(['show']);
+Route::middleware([Authenticate::class])->group(function () {
+    Route::resource('users', UserController::class)->except(['show']);
+});
