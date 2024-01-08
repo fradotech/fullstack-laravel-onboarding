@@ -20,6 +20,9 @@ Route::get('/', function () {
     return Inertia::render('Landing');
 });
 
+// Untuk contoh middleware
 Route::middleware([Authenticate::class])->group(function () {
     Route::resource('users', UserController::class)->except(['show']);
 });
+
+Route::resource('users', UserController::class)->except(['show']);

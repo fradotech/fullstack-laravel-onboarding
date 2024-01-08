@@ -47,13 +47,11 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
-    public function edit($id)
+    public function edit(User $user)
     {
-        $data = $this->userService->show($id);
-
         return Inertia::render('User/UserForm', [
             'title' => 'Edit User',
-            'data' => new UserResource($data),
+            'data' => new UserResource($user),
             'roles' => $this->roleService->index(),
         ]);
     }
