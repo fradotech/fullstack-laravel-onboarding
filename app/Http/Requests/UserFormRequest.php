@@ -23,8 +23,19 @@ class UserFormRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:users,email',
             'role_id' => 'required',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'A name is required!!!',
+            'email.required' => 'An email is required!!!',
+            'email.email' => 'The email must be a valid email address!!!',
+            'email.unique' => 'The email has already been taken!!!',
+            'role_id.required' => 'A role id is required!!!',
         ];
     }
 }

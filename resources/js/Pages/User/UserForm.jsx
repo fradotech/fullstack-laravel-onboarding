@@ -2,13 +2,24 @@ import { Form, Input, Select, Button, Typography, Card } from "antd";
 import { Inertia } from "@inertiajs/inertia";
 import Layout from "../../Layout";
 
-export default function UserForm({ title, roles, data }) {
+export default function UserForm({ title, roles, data, errors }) {
     const user = data?.data;
     const [form] = Form.useForm();
     const onFinish = (values) => {
         if (user) Inertia.put(`/users/${user.id}`, values);
         else Inertia.post("/users", values);
     };
+
+    if (errors) {
+        Object.keys(errors).forEach((key) => {
+            form.setFields([
+                {
+                    name: key,
+                    errors: [errors[key]],
+                },
+            ]);
+        });
+    }
 
     return (
         <Layout>
