@@ -25,6 +25,7 @@ class UserFormRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'role_id' => 'required',
+            'avatar' => 'file|image|max:2048',
         ];
     }
 

@@ -1,4 +1,4 @@
-import { Form, Input, Select, Button, Typography, Card } from "antd";
+import { Form, Input, Select, Button, Typography, Card, Upload } from "antd";
 import { Inertia } from "@inertiajs/inertia";
 import Layout from "../../Layout";
 
@@ -6,6 +6,8 @@ export default function UserForm({ title, roles, data, errors }) {
     const user = data?.data;
     const [form] = Form.useForm();
     const onFinish = (values) => {
+        if (values.avatar) values.avatar = values.avatar[0].originFileObj;
+
         if (user) Inertia.put(`/users/${user.id}`, values);
         else Inertia.post("/users", values);
     };
@@ -21,6 +23,14 @@ export default function UserForm({ title, roles, data, errors }) {
         });
     }
 
+    const normFile = (e) => {
+        console.log("Upload event:", e);
+        if (Array.isArray(e)) {
+            return e;
+        }
+        return e && e.fileList;
+    };
+
     return (
         <Layout>
             <Card style={{ maxWidth: 500 }}>
@@ -30,6 +40,21 @@ export default function UserForm({ title, roles, data, errors }) {
                     onFinish={onFinish}
                     initialValues={user && user}
                 >
+                    {!user && (
+                        <Form.Item
+                            name="avatar"
+                            valuePropName="fileList"
+                            getValueFromEvent={normFile}
+                        >
+                            <Upload
+                                name="avatar"
+                                listType="picture"
+                                beforeUpload={() => false}
+                            >
+                                <Button>Upload Avatar</Button>
+                            </Upload>
+                        </Form.Item>
+                    )}
                     <Form.Item name="name">
                         <Input placeholder="Name" />
                     </Form.Item>

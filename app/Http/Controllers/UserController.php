@@ -43,6 +43,13 @@ class UserController extends Controller
 
     public function store(UserFormRequest $request)
     {
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $avatarPath = $avatar->store('avatars');
+            
+            // TODO: store avatar path to database
+        }
+
         $this->userService->store($request);
         return redirect()->route('users.index');
     }
