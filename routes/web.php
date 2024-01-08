@@ -19,4 +19,4 @@ Route::get('/', function () {
     return Inertia::render('Landing');
 });
 
-Route::resource('users', UserController::class);
+Route::resource('users', UserController::class)->except(['show']);
