@@ -44,10 +44,11 @@ class UserController extends Controller
     public function store(UserFormRequest $request)
     {
         if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $avatarPath = $avatar->store('avatars');
+            // $avatar = $request->file('avatar');
+            // $avatarPath = $avatar->store('avatars');
             
             // TODO: store avatar path to database
+            $avatarPath = "Hallo";
         }
 
         $this->userService->store($request);
